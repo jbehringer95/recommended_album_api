@@ -1,0 +1,11 @@
+.env
+# ignoring certain folders
+models/
+data/
+notebooks/
+# ignoring terraform provider files
+terraform/.terraform/
+
+# Created by https://www.toptal.com/developers/gitignore/api/react
+# Edit at https://www.toptal.com/developers/gitignore?templates=react
+

@@ -29,7 +29,7 @@ def pulling_dataframe(access_key, secret_key):
 def populating_album_database(df, access_key, secret_key):
     # This function only runs once to populate the Database
     dynamo_db = boto3.resource('dynamodb', region_name='us-east-1',
-                                aws_access_key_id = access_key, 
+                                aws_access_key_id = access_key,
                                 aws_secret_access_key = secret_key)
     dynamo_table = dynamo_db.Table('Albums')
 
