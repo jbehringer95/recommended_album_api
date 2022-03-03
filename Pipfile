@@ -6,16 +6,13 @@ name = "pypi"
 [packages]
 bs4 = "*"
 requests = "*"
-split = "*"
 python-dotenv = "*"
-lxml = "*"
 http-request = "*"
 pandas = "*"
 boto3 = "*"
 flask = "*"
 flask-restful = "*"
-keras = "*"
-tensorflow = "*"
+sklearn = "*"
 
 [dev-packages]
 ipykernel = "*"
