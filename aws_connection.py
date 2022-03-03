@@ -57,9 +57,3 @@ def query_album(index, access_key, secret_key):
         KeyConditionExpression=Key('Index').eq(index)
     )
     return response['Items']
-
-
-# print(query_album(3103, ACCESS_KEY, SECRET_KEY))
-
-
-    
