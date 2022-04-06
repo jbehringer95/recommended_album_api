@@ -6,6 +6,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from flask import Flask
 from flask_restful import Api, Resource
+from flask_cors import CORS
 from predictions import get_recommendations
 from aws_connection import pulling_dataframe, query_album
 
@@ -22,6 +23,7 @@ SECRET_KEY = os.getenv('secret_key')
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 
 
 class AlbumSuggester(Resource):
@@ -60,4 +62,4 @@ class AlbumSuggester(Resource):
 api.add_resource(AlbumSuggester, "/prediction/<string:value_list>")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
