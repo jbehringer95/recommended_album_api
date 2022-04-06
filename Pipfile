@@ -13,6 +13,7 @@ boto3 = "*"
 flask = "*"
 flask-restful = "*"
 sklearn = "*"
+spotipy = "*"
 
 [dev-packages]
 ipykernel = "*"
