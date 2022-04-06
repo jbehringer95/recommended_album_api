@@ -15,6 +15,7 @@ flask-restful = "*"
 sklearn = "*"
 spotipy = "*"
 flask-cors = "*"
+gunicorn = "*"
 
 [dev-packages]
 ipykernel = "*"
