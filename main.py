@@ -1,4 +1,3 @@
-from email.mime import application
 import os
 import re
 import json
@@ -21,8 +20,8 @@ SPOTIFY_SECRET = os.getenv('spotify_client_secret')
 ACCESS_KEY = os.getenv('access_key')
 SECRET_KEY = os.getenv('secret_key')
 
-application = Flask(__name__)
-api = Api(application)
+app = Flask(__name__)
+api = Api(app)
 
 
 class AlbumSuggester(Resource):
@@ -46,11 +45,11 @@ class AlbumSuggester(Resource):
             for values in response:
 
                 if values['Album_Name'] not in album_names:
-                    album_names.applicationend(values['Album_Name'])
+                    album_names.append(values['Album_Name'])
                     del values['Index']
                     album_result = sp.search(values['Album_Name'], type='album', limit=1)
                     values['url'] = album_result['albums']['items'][0]['images'][0]['url']
-                    album.applicationend(values)
+                    album.append(values)
             
             if len(album) == 5:
                 break
@@ -61,4 +60,4 @@ class AlbumSuggester(Resource):
 api.add_resource(AlbumSuggester, "/prediction/<string:value_list>")
 
 if __name__ == "__main__":
-    application.run(debug=True)
+    app.run(debug=True)
