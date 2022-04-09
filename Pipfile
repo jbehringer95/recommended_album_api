@@ -16,6 +16,7 @@ sklearn = "*"
 spotipy = "*"
 flask-cors = "*"
 gunicorn = "*"
+awscli = "*"
 
 [dev-packages]
 ipykernel = "*"

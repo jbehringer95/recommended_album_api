@@ -34,7 +34,7 @@ class AlbumSuggester(Resource):
         value_list = urllib.parse.unquote(value_list)
         value_list = value_list.split(', ')
         value_list = [re.sub('[^a-zA-Z\s]', '', i) for i in value_list]
-        df = pulling_dataframe(ACCESS_KEY, SECRET_KEY)
+        df = pulling_dataframe(ACCESS_KEY, SECRET_KEY, 'Vectorizor_df.csv')
         recommendations = get_recommendations(df, 'Album', 'New_Album', value_list)
 
         album = []
@@ -58,8 +58,22 @@ class AlbumSuggester(Resource):
 
         return album
 
+class GetAllTags(Resource):
+    def get(self):
+        df = pulling_dataframe(ACCESS_KEY, SECRET_KEY, 'columns.csv')
+        tags = list(df.columns)
+        
+        return tags
+
+class Health(Resource):
+    def get(self):
+        return
+
 
 api.add_resource(AlbumSuggester, "/prediction/<string:value_list>")
+api.add_resource(GetAllTags, '/tags')
+api.add_resource(Health, '/health')
+
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

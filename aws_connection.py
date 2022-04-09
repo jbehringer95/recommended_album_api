@@ -12,14 +12,14 @@ ACCESS_KEY = os.getenv('access_key')
 SECRET_KEY = os.getenv('secret_key')
 
 
-def pulling_dataframe(access_key, secret_key):
+def pulling_dataframe(access_key, secret_key, key_name):
     session = boto3.session.Session(region_name='us-east-1')
     s3_instance = boto3.client('s3',
                                  aws_access_key_id = access_key, 
                                  aws_secret_access_key = secret_key)
     
     response = s3_instance.get_object(Bucket='album-csv', 
-                                      Key='Vectorizor_df.csv')
+                                      Key= key_name)
 
     df = pd.read_csv(response['Body'], index_col=[0])
 
