@@ -50,8 +50,11 @@ class AlbumSuggester(Resource):
                     album_names.append(values['Album_Name'])
                     del values['Index']
                     album_result = sp.search(values['Album_Name'], type='album', limit=1)
-                    values['url'] = album_result['albums']['items'][0]['images'][0]['url']
-                    album.append(values)
+                    try:
+                        values['url'] = album_result['albums']['items'][0]['images'][0]['url']
+                        album.append(values)
+                    except:
+                        break
             
             if len(album) == 5:
                 break
