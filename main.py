@@ -40,19 +40,25 @@ class AlbumSuggester(Resource):
         album = []
         album_names = []
 
-        for num in range(1,10):
+        for num in range(1, 100):
             # Pulling the album data from the database one at a time
             response = query_album(int(recommendations['index'].iloc[num]), ACCESS_KEY, SECRET_KEY)
 
             for values in response:
 
                 if values['Album_Name'] not in album_names:
-                    album_names.append(values['Album_Name'])
                     del values['Index']
-                    album_result = sp.search(values['Album_Name'], type='album', limit=1)
+                    album_results = sp.search(values['Album_Name'], type='album', limit=50)
+
                     try:
-                        values['url'] = album_result['albums']['items'][0]['images'][0]['url']
-                        album.append(values)
+                        for album_result in album_results['albums']['items']:
+
+                            if values['Artist'].lower() == album_result['artists'][0]['name'].lower():
+                                values['url'] = album_result['images'][0]['url']
+                                album.append(values)
+                                album_names.append(values['Album_Name'])
+                                break
+
                     except:
                         break
             

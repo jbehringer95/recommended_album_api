@@ -3,7 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
 
-def get_recommendations(df, column, value, value_list, limit=10):
+def get_recommendations(df, column, value, value_list, limit=100):
     values = ', '.join([str(elem) for elem in value_list])
     df = df.append({'Album':value,
                     'Artist':value,
