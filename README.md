@@ -24,7 +24,7 @@ A Flask-based REST API that recommends music albums based on genre preferences u
 ### Prerequisites
 
 - Python 3.8+
-- AWS Account with S3 and DynamoDB access
+- PostgreSQL or SQLite (for local database)
 - Spotify Developer Account
 
 ### Environment Variables
@@ -33,8 +33,43 @@ Create a `.env` file in the root directory with:
 ```python
 spotify_client_id=your_spotify_client_id
 spotify_client_secret=your_spotify_client_secret
-access_key=your_aws_access_key
-secret_key=your_aws_secret_key
+DATABASE_URL=postgresql://username:password@localhost:5432/albumdb  # For PostgreSQL
+# or
+DATABASE_URL=sqlite:///albums.db  # For SQLite
+```
+
+### Database Setup
+
+1. Create a local database:
+
+For PostgreSQL:
+```bash
+# Install PostgreSQL and create database
+psql
+CREATE DATABASE albumdb;
+```
+
+For SQLite:
+```bash
+# SQLite database will be created automatically when running the application
+```
+
+2. Initialize the database with sample data:
+```python
+# db_setup.py
+import pandas as pd
+from sqlalchemy import create_engine
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+# Create engine
+engine = create_engine(os.getenv('DATABASE_URL'))
+
+# Load sample data
+df = pd.read_csv('sample_albums.csv')  # You'll need to create this with some sample data
+df.to_sql('albums', engine, if_exists='replace', index=False)
 ```
 
 ### Installation
@@ -48,32 +83,20 @@ cd recommended_album_api
 2. Install dependencies:
 ```bash
 pip install -r requirements.txt
+pip install psycopg2-binary  # For PostgreSQL
+# or
+pip install sqlite3  # For SQLite
 ```
 
-3. Run the application:
+3. Set up the database:
+```bash
+python db_setup.py
+```
+
+4. Run the application:
 ```bash
 python main.py
 ```
-
-## 📡 API Endpoints
-
-### Get Album Recommendations
-```http
-GET /prediction/<string:value_list>
-```
-Returns album recommendations based on provided genre tags.
-
-### Get Available Tags
-```http
-GET /tags
-```
-Returns all available genre tags.
-
-### Health Check
-```http
-GET /health
-```
-Returns API health status.
 
 ## Example Usage
 
@@ -82,8 +105,8 @@ Returns API health status.
 import requests
 import urllib.parse
 
-# Base URL
-BASE = 'http://recommended-album-api-dev.us-east-1.elasticbeanstalk.com/prediction/'
+# Local Base URL
+BASE = 'http://127.0.0.1:5000/prediction/'
 
 # Example: Get recommendations for Art Rock genre
 value_list = ['Art Rock']
@@ -103,6 +126,7 @@ print(response.json())
 ]
 ```
 
+Note: Make sure you have set up your environment variables, database, and are running the Flask application locally before making requests.
 ## 🧪 Testing
 
 Run the test suite:
